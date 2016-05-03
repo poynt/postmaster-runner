@@ -1,0 +1,27 @@
+{
+  "id": "b48f6e5a-de92-4a3d-8418-1a9919a3cacb",
+  "name": "Sample Postmaster Test",
+  "values": [
+    {
+      "key": "endpoint",
+      "value": "https://postmaster.poynt.co",
+      "type": "text",
+      "name": "endpoint"
+    },
+    {
+      "key": "kafka",
+      "value": "kafka.postmaster.poynt.co:9092",
+      "type": "text",
+      "name": "kafka"
+    },
+    {
+      "key": "zookeeper",
+      "value": "zookeeper.postmaster.poynt.co:2181",
+      "type": "text",
+      "name": "zookeeper"
+    }
+  ],
+  "timestamp": 1461879174000,
+  "synced": false,
+  "syncedFilename": ""
+}

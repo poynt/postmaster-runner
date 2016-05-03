@@ -1,0 +1,119 @@
+{
+  "id": "07f2e027-cf4d-4bfd-82e6-9a657e542752",
+  "name": "Sample Postmaster Test",
+  "description": "",
+  "order": [],
+  "folders": [
+    {
+      "id": "a1e3ded2-fcbb-4e88-af02-208a2d7820a1",
+      "name": "0 Health Check",
+      "description": "",
+      "order": [
+        "038ae018-2fb2-4329-b293-6ce176690401"
+      ],
+      "owner": "1234"
+    },
+    {
+      "id": "758514ef-d4e4-4565-82f6-ed2a8397133d",
+      "name": "1 Create User in async and verify callback",
+      "description": "",
+      "order": [
+        "ac3fb20a-f438-4165-92b8-a1550a0d0ad9",
+        "65e1b520-f8e7-4fad-bd70-0273c24c01bb",
+        "3fe83766-f3c4-4f37-8e00-5d23f65643dc"
+      ],
+      "owner": "1234"
+    }
+  ],
+  "timestamp": 1461879174000,
+  "owner": "1234",
+  "remoteLink": "",
+  "public": false,
+  "requests": [
+    {
+      "type": "POSTMAN",
+      "id": "038ae018-2fb2-4329-b293-6ce176690401",
+      "headers": "",
+      "url": "{{endpoint}}/v1/health",
+      "preRequestScript": "",
+      "pathVariables": {},
+      "method": "GET",
+      "data": [],
+      "dataMode": "params",
+      "version": 2,
+      "tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\ntests[\"status is OK\"] = data.status === \"OK\";\n",
+      "currentHelper": "normal",
+      "helperAttributes": {},
+      "time": 1461879174000,
+      "name": "Check API health",
+      "description": "",
+      "collectionId": "07f2e027-cf4d-4bfd-82e6-9a657e542752",
+      "responses": [],
+      "folder": "a1e3ded2-fcbb-4e88-af02-208a2d7820a1"
+    },
+    {
+      "type": "KAFKA_PUBLISH",
+      "id": "ac3fb20a-f438-4165-92b8-a1550a0d0ad9",
+      "headers": "",
+      "url": "{{kafka}}",
+      "topic": "USER-CREATION",
+      "preRequestScript": "",
+      "pathVariables": {},
+      "method": "KAFKA",
+      "data": [],
+      "dataMode": "raw",
+      "version": 2,
+      "tests": "",
+      "time": 1461879174000,
+      "name": "Publish a Kafka message to topic USER-CREATION",
+      "description": "",
+      "collectionId": "07f2e027-cf4d-4bfd-82e6-9a657e542752",
+      "responses": [],
+      "rawModeData": "{\"id\":1234567890, \"firstName\":\"Postmaster\", \"lastName\":\"Runner\"}",
+      "folder": "758514ef-d4e4-4565-82f6-ed2a8397133d"
+    },
+    {
+      "type": "KAFKA_LISTEN",
+      "id": "65e1b520-f8e7-4fad-bd70-0273c24c01bb",
+      "headers": "",
+      "url": "{{kafka}}",
+      "topic": "USER-CREATION",
+      "matcher": ".*1234567890.*",
+      "preRequestScript": "",
+      "pathVariables": {},
+      "method": "KAFKA",
+      "data": [],
+      "dataMode": "raw",
+      "version": 2,
+      "tests": "var data = JSON.parse(responseBody);\ntests[\"First name id Postmaster\"] = data.firstName === 'Postmaster';\ntests[\"Second name id Runner\"] = data.secondName === 'Runner';",
+      "time": 1461879174000,
+      "name": "Consume a Kafka message from USER-CREATION with matching id",
+      "description": "",
+      "collectionId": "07f2e027-cf4d-4bfd-82e6-9a657e542752",
+      "responses": [],
+      "rawModeData": "",
+      "folder": "758514ef-d4e4-4565-82f6-ed2a8397133d"
+    },
+    {
+      "type": "API_LISTEN",
+      "id": "3fe83766-f3c4-4f37-8e00-5d23f65643dc",
+      "headers": "",
+      "url": "http://localhost:8080/user/callback",
+      "matcher": ".*1234567890.*",
+      "preRequestScript": "",
+      "pathVariables": {},
+      "method": "POST",
+      "data": [],
+      "dataMode": "raw",
+      "version": 2,
+      "tests": "var data = JSON.parse(responseBody);\ntests[\"First name id Postmaster\"] = data.firstName === 'Postmaster';\ntests[\"Second name id Runner\"] = data.secondName === 'Runner';",
+      "time": 1461879174000,
+      "name": "Consume a API Callback from /user/callback path with matching id",
+      "description": "",
+      "collectionId": "07f2e027-cf4d-4bfd-82e6-9a657e542752",
+      "responses": [],
+      "rawModeData": "",
+      "folder": "758514ef-d4e4-4565-82f6-ed2a8397133d"
+    }
+  ]
+}
