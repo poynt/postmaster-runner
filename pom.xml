@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>co.poynt.postman.runner</groupId>
 			<artifactId>postman-runner</artifactId>
-			<version>1.0.5-SNAPSHOT</version>
+			<version>1.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
