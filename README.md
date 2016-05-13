@@ -36,6 +36,12 @@ See `sample_postmaster_collection.json` and `sample_postmaster_environment.json`
 ```
 bin/postmaster-runner.sh -c src/test/resources/sample_postmaster_collection.json -e src/tesresources/sample_postmaster_environment.json -haltonerror false
 ```
+or
+
+```
+mvn clean install exec:java -DskipTests=true -Dexec.args="-c src/test/resources/sample_postmaster_collection.json -e src/tesresources/sample_postmaster_environment.json -haltonerror false"
+```
+
 
 Run `bin/postmaster-runner.sh` without any argument to see all the options.
 
