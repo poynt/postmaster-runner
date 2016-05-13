@@ -169,6 +169,13 @@ public class PostmasterCollectionRunner {
 		}
 
 		PostmasterCollectionRunner pcr = new PostmasterCollectionRunner();
-		pcr.runCollection(colFilename, envFilename, folderName, haltOnError);
+		PostmanRunResult result = pcr.runCollection(colFilename, envFilename, folderName, haltOnError);
+
+		// check for failed request
+		if (result.failedRequest > 0) {
+			System.exit(1);
+		} else {
+			System.exit(0);
+		}
 	}
 }
