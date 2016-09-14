@@ -107,8 +107,8 @@ public class PostmasterCollectionRunner {
 
 		// add kafka listener
 		if (!topics.isEmpty()) {
-			String zookeeper = var.getEnv().lookup.get("zookeeper").value;
-			runner.addKafkaListener(new KafkaListener(zookeeper, topics));
+			String kafka = var.getEnv().lookup.get("kafka").value;
+			runner.addKafkaListener(new KafkaListener(kafka, topics));
 		}
 
 		// add api listener
