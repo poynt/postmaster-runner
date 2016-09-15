@@ -35,6 +35,7 @@ public class KafkaPublisherRequestRunner implements IRequestRunner {
 		props.put("reconnect.backoff.ms", 5000);
 		props.put("retry.backoff.ms", 2000);
 		props.put("metadata.fetch.timeout.ms", 10000);
+		props.put("acks", "all");
 		this.producer = new KafkaProducer<>(props, new StringSerializer(), new StringSerializer());
 	}
 
