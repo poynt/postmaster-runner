@@ -54,6 +54,13 @@ public class KafkaListener implements IListener {
 		// TODO only works with single partition topic
 		topics.forEach(t -> consumers.add(new KafkaSimpleConsumer(hostname, port, t, 0, incomingMessages.get(t))));
 		consumers.forEach(threadPool::submit);
+		consumers.forEach(kc -> {
+			try {
+				kc.waitForConnection();
+			} catch (InterruptedException e) {
+				throw new ListenerInitializationException("Failed to connect to kafka", e);
+			}
+		});
 	}
 
 	@Override
