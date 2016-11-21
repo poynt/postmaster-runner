@@ -20,10 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class KafkaSimpleConsumer implements Runnable {
 
 	private static final int TIMEOUT_MS = 100000;
+	private static final int CONNECTION_TIMEOUT_MS = 10000;
 	private static final int BUFFER_SIZE = 64 * 1024;
 
 	private String hostname;
@@ -31,6 +34,7 @@ public class KafkaSimpleConsumer implements Runnable {
 	private String topic;
 	private int partition;
 	private BlockingQueue<String> messages;
+	private CountDownLatch connected;
 	private volatile boolean stop = false;
 
 	public KafkaSimpleConsumer(String hostname, int port, String topic, int partition, BlockingQueue<String> messages) {
@@ -39,6 +43,7 @@ public class KafkaSimpleConsumer implements Runnable {
 		this.topic = topic;
 		this.partition = partition;
 		this.messages = messages;
+		this.connected = new CountDownLatch(1);
 	}
 
 	@Override
@@ -48,6 +53,10 @@ public class KafkaSimpleConsumer implements Runnable {
 		} catch (Exception e) {
 			System.out.println("Failed to run consumer");
 		}
+	}
+
+	public void waitForConnection() throws InterruptedException {
+		connected.await(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS);
 	}
 
 	public void shutdown() {
@@ -112,7 +121,12 @@ public class KafkaSimpleConsumer implements Runnable {
 					// do nothing
 				}
 			}
+
+			if (connected.getCount() > 0) {
+				connected.countDown();
+			}
 		}
+
 		if (consumer != null) {
 			consumer.close();
 		}
