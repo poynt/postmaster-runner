@@ -13,7 +13,7 @@ import co.poynt.postman.model.PostmanVariables;
  */
 public class KafkaListenerRequestRunner implements IListenerRequestRunner<KafkaListener> {
 
-	private static final int REQUEST_TIMEOUT = 5000;
+	private static final int REQUEST_TIMEOUT = 10000;
 	private KafkaListener kafkaListener;
 	private MessageJsEvaluator evaluator;
 
